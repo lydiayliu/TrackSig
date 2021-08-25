@@ -10,14 +10,14 @@ library(NMF)
 nmf.options(grid.patch=TRUE)
 
 # Select fitting all signatures or only signatures for the particular cancer type
-#sig_amount <- "onlyKnownSignatures" # recommended
-sig_amount <- "onlyKnownSignatures" # not recommended, time-consuming
+sig_amount <- "onlyKnownSignatures" # recommended
+# sig_amount <- "onlyKnownSignatures" # not recommended, time-consuming
 
 # Number of mutations in each time point bin
 bin_size = 100
 
 # if the signatures are specified per cancer type or per sample
-cancer_type_signatures = T
+cancer_type_signatures = TRUE
 
 # if signatures trajectories need to be computed on bootstrapped signatures as well
 # bootstrapping provides the uncertainty estimations on the trajectories
@@ -35,7 +35,7 @@ postfix = ""
 changepoint_method = "PELT"
 
 # file with cancer types of each sample
-tumortype_file <- "data/tumortypes.txt"
+tumortype_file <- "/data/tumortypes.txt"
 
 if (simulated_data) {
   DIR_COUNTS = "./simulated_data/"
@@ -45,30 +45,30 @@ if (simulated_data) {
 } else {
   # folders with mutation counts, mutation order and bootstrapped mutations
   # don't need to be changed unless different folder were specified in make_counts.sh
-  DIR_COUNTS = "data/counts/"
-  mutation_order = "data/mut_order/"
-  BOOTSTRAP_COUNTS = "data/bootstrap/"
-  purity_file = "data/example_purity.txt"
+  DIR_COUNTS = "/output/counts/"
+  mutation_order = "/output/mut_order/"
+  BOOTSTRAP_COUNTS = "/output/bootstrap/"
+  purity_file = "/data/purity.txt"
 }
 
 # folder to write results to
-DIR_RESULTS = "results_signature_trajectories/"
+DIR_RESULTS = "/output/results_signature_trajectories/"
 
 # file with signatures definitions
-signature_file = "annotation/alexSignatures.txt"
+signature_file = "annotation/custom/COSMIC_v3.2_SBS_GRCh38.txt"
 
 # file with trinucleotide context
 trinucleotide_file = "annotation/trinucleotide.txt"
 
 # specifies active signatures in TCGA cancer types
-active_signatures_file = "annotation/active_signatures_transposed.txt"
+active_signatures_file = "annotation/custom/active_signatures_PCAWG_HNSC.txt"
 
 # specifies active signatures in each sample. Contains the active signatures for the example
 # active_signatures_file = "annotation/active_in_samples.txt"
 
-SAVED_SAMPLES_DIR = "saved_data/"
+SAVED_SAMPLES_DIR = "/output/saved_data/"
 
-PLOT_FULL_NAME = F
+PLOT_FULL_NAME = FALSE
 mutation_assignments = ""
 
 if (!file.exists(DIR_RESULTS))
