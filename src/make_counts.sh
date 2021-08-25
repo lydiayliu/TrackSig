@@ -98,8 +98,10 @@ if [ ! -f $mutation_types_file ] || [ ! -s  $mutation_types_file ]; then
 	exit -1
 fi
 
+# bug fix since not everything in phi_file gets kept after type and order
+# num_mutations=$(min_number `cat $phi_file | wc -l` `cat $vcf_file | wc -l`)
 
-num_mutations=$(min_number `cat $phi_file | wc -l` `cat $vcf_file | wc -l`)
+num_mutations=$(min_number `cat $mutation_types_file | wc -l` `cat $mut_order_file | wc -l`)
 
 num_hundreds=$(($num_mutations/$bin_size + ($num_mutations % $bin_size > 0))) 
 
