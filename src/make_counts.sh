@@ -5,10 +5,10 @@
 vcf_file=$1 # Path to directory with vcf files
 phi_file=$2 # Path to directory with phi.txt files produces by cals_ssm_phis.py
 
-mutation_counts_path="data/counts/" # Path where to write the mutation counts
-mut_order_path="data/mut_order/" # Path where to write mutation ordering (list of mutations sorted by phi). Needed to run get_clusters_at_timepoints.R. get_clusters_at_timepoints.R   composes list of tree node assignments for chunks of 100 mutations (prevalent tree node assignments at this time point)
-mutation_types_path="data/mut_types/" # Path where to write files listing mutation type (out of 96 trinucleotide-based types) for each mutation in vcf file sorted by phi
-mutation_bootstrap_path="data/bootstrap/" # Path where to write bootstrapped mutation counts
+mutation_counts_path="/output/counts/" # Path where to write the mutation counts
+mut_order_path="/output/mut_order/" # Path where to write mutation ordering (list of mutations sorted by phi). Needed to run get_clusters_at_timepoints.R. get_clusters_at_timepoints.R   composes list of tree node assignments for chunks of 100 mutations (prevalent tree node assignments at this time point)
+mutation_types_path="/output/mut_types/" # Path where to write files listing mutation type (out of 96 trinucleotide-based types) for each mutation in vcf file sorted by phi
+mutation_bootstrap_path="/output/bootstrap/" # Path where to write bootstrapped mutation counts
 
 make_hundreds_script="src/make_hundreds.py"
 get_mutation_type_script="src/getMutationTypes.pl"
