@@ -763,6 +763,17 @@ truncate_to_range <- function(mixtures, range_) {
   return(list(x2,to_leave))
 }
 
+reformat_cosmic_rownames <- function(cosmic){
+
+  trinucleotide <- paste0(substring(cosmic, 1, 1), substring(cosmic, 3, 3), substring(cosmic, 7, 7))
+  from <- substring(cosmic, 3, 3)
+  to <- substring(cosmic, 5, 5)
+
+  row <- paste(from, to, trinucleotide, sep='_')
+  return(row)
+
+}
+
 load_annotation <- function(tumortype_file, signature_file, active_signatures_file) {
   names_trinucleotide <- read.table(paste0("annotation/trinucleotide.txt"), stringsAsFactors = F)
   names_trinucleotide <- apply(names_trinucleotide, 1, function(x) { do.call("paste", c(as.list(x), sep = "_"))})
@@ -774,16 +785,23 @@ load_annotation <- function(tumortype_file, signature_file, active_signatures_fi
   # ALEX DATA
   # The trinucleotide count matrix will be regressed on the 30 Alexandrov Mutational Signature frequencies
   # http://cancer.sanger.ac.uk/cosmic/signatures
-  alex <- read.table(paste0(signature_file))
-  rownames(alex) <- names_trinucleotide
-  colnames(alex) <- paste0("S", 1:ncol(alex))
+  # UPDATE to COSMIC v3.2, with rownames and
+  # alex <- read.table(paste0(signature_file))
+  # rownames(alex) <- names_trinucleotide
+  # colnames(alex) <- paste0("S", 1:ncol(alex))
+  # UPDATE TO USE DIRECTLY FROM COSMIC
+  alex <- read.delim(paste0(signature_file), as.is=T)
+  rownames(alex) <- reformat_cosmic_rownames(alex$Type)
+  alex <- alex[, colnames(alex) != 'Type']
+  alex <- alex[order(rownames(alex)), ]
+  stopifnot(rownames(alex) == names_trinucleotide)
 
   if (cancer_type_signatures) {
     # Load active signatures for each tumor type
     active_signatures <- read.delim(active_signatures_file, stringsAsFactors=F)
     active_signatures[is.na(active_signatures)] <- 0
     # Removing column "Other.signatures"
-    active_signatures <- active_signatures[, -ncol(active_signatures)]
+    # active_signatures <- active_signatures[, -ncol(active_signatures)]
     
     # Some of the signatures have several types corresponding to them. 
     # The rows which correspond to several tumor types and duplicated in the table.
