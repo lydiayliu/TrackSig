@@ -13,7 +13,7 @@ sub mean {
 }
 sub min ($$) { $_[$_[0] > $_[1]] }
 
-my %fastaHandles = ("path" => "annotation/hg19/"); # human reference genome hg19
+my %fastaHandles = ("path" => "annotation/hg38/"); # human reference genome hg38
 
 ###############################################################
 my $caller = $ARGV[0]; # caller definition: muse/caveman/dkfz..
@@ -124,7 +124,7 @@ while ($line = <VCFFILE>)
 			$checkPass++;
 		}
 		
-	# Check on the chromosome containing the particular mutation is in the human reference genome hg19
+	# Check on the chromosome containing the particular mutation is in the human reference genome hg38
 	my $checkChr=0;
     	if (($chr eq 'M') or ($chr eq 'X') or ($chr eq 'Y'))
     	{
@@ -240,7 +240,7 @@ for my $variant (@phi_array)
 	}
 }
 
-# Function that retrieves the sequence from the human reference genome hg19
+# Function that retrieves the sequence from the human reference genome hg38
 sub getSequence
 {
 	my $chr_ = "chr".$chr;
