@@ -1,4 +1,5 @@
 # AUTHOR: Yulia Rubanova
+options(error = function() traceback(2))
 
 source("src/header.R")
 
@@ -336,5 +337,6 @@ compute_errorbars_for_all_examples <- function(bootstrap_counts = BOOTSTRAP_COUN
 
 
 save_data_for_samples()
-suppressMessages(compute_signatures_for_all_examples())
+# suppressMessages(compute_signatures_for_all_examples())
+compute_signatures_for_all_examples()
 if (compute_bootstrap) {compute_errorbars_for_all_examples()}
