@@ -1,6 +1,10 @@
 # AUTHOR: Yulia Rubanova
 options(error = function() traceback(2))
 
+args <- commandArgs(TRUE)
+simulated_data <- !is.null(args[1])
+print(simulated_data)
+
 source("src/header.R")
 
 group = 0

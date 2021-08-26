@@ -774,7 +774,7 @@ reformat_cosmic_rownames <- function(cosmic){
 
 }
 
-load_annotation <- function(tumortype_file, signature_file, active_signatures_file) {
+load_annotation <- function(tumortype_file, signature_file, active_signatures_file, simulated_data = FALSE) {
   names_trinucleotide <- read.table(paste0("annotation/trinucleotide.txt"), stringsAsFactors = F)
   names_trinucleotide <- apply(names_trinucleotide, 1, function(x) { do.call("paste", c(as.list(x), sep = "_"))})
 
@@ -785,16 +785,18 @@ load_annotation <- function(tumortype_file, signature_file, active_signatures_fi
   # ALEX DATA
   # The trinucleotide count matrix will be regressed on the 30 Alexandrov Mutational Signature frequencies
   # http://cancer.sanger.ac.uk/cosmic/signatures
-  # UPDATE to COSMIC v3.2, with rownames and
-  # alex <- read.table(paste0(signature_file))
-  # rownames(alex) <- names_trinucleotide
-  # colnames(alex) <- paste0("S", 1:ncol(alex))
-  # UPDATE TO USE DIRECTLY FROM COSMIC
-  alex <- read.delim(paste0(signature_file), as.is=T)
-  rownames(alex) <- reformat_cosmic_rownames(alex$Type)
-  alex <- alex[, colnames(alex) != 'Type']
-  alex <- alex[order(rownames(alex)), ]
-  stopifnot(rownames(alex) == names_trinucleotide)
+  if (simulated_data){
+    alex <- read.table(paste0(signature_file))
+    rownames(alex) <- names_trinucleotide
+    colnames(alex) <- paste0("S", 1:ncol(alex))
+  } else {
+    # UPDATE TO USE DIRECTLY FROM COSMIC
+    alex <- read.delim(paste0(signature_file), as.is=T)
+    rownames(alex) <- reformat_cosmic_rownames(alex$Type)
+    alex <- alex[, colnames(alex) != 'Type']
+    alex <- alex[order(rownames(alex)), ]
+    stopifnot(rownames(alex) == names_trinucleotide)
+  }
 
   if (cancer_type_signatures) {
     # Load active signatures for each tumor type

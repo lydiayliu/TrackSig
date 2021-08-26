@@ -27,21 +27,29 @@ compute_bootstrap = FALSE
 sliding_window = FALSE
 noise_sig = NULL
 
-simulated_data = FALSE
+# simulated_data = FALSE
 
 postfix = ""
 
 # specifies the changepoint detection algorithm.
 changepoint_method = "PELT"
 
-# file with cancer types of each sample
-tumortype_file <- "/data/tumortypes.txt"
 
 if (simulated_data) {
-  DIR_COUNTS = "./simulated_data/"
+  print('SIMULATED')
+  DIR_COUNTS = "/output/simulation/simulated_data/"
   mutation_order = NULL
   BOOTSTRAP_COUNTS = NULL
   purity_file <- NULL
+  # folder to write results to
+  DIR_RESULTS = "/output/simulation/results_signature_trajectories/"
+  SAVED_SAMPLES_DIR = "/output/simulation/saved_data/"
+  # file with cancer types of each sample
+  tumortype_file <- "data/tumortypes.txt"
+  # specifies active signatures in TCGA cancer types
+  active_signatures_file = "annotation/active_signatures_transposed.txt"
+  # file with signatures definitions
+  signature_file = "annotation/alexSignatures.txt"
 } else {
   # folders with mutation counts, mutation order and bootstrapped mutations
   # don't need to be changed unless different folder were specified in make_counts.sh
@@ -49,24 +57,25 @@ if (simulated_data) {
   mutation_order = "/output/mut_order/"
   BOOTSTRAP_COUNTS = "/output/bootstrap/"
   purity_file = "/data/purity.txt"
+  # folder to write results to
+  DIR_RESULTS = "/output/results_signature_trajectories/"
+  SAVED_SAMPLES_DIR = "/output/saved_data/"
+  # file with cancer types of each sample
+  tumortype_file <- "/data/tumortypes.txt"
+  # specifies active signatures in TCGA cancer types
+  active_signatures_file = "annotation/custom/active_signatures_PCAWG_HNSC.txt"
+  # file with signatures definitions
+  signature_file = "annotation/custom/COSMIC_v3.2_SBS_GRCh38.txt"
 }
 
-# folder to write results to
-DIR_RESULTS = "/output/results_signature_trajectories/"
 
-# file with signatures definitions
-signature_file = "annotation/custom/COSMIC_v3.2_SBS_GRCh38.txt"
 
 # file with trinucleotide context
 trinucleotide_file = "annotation/trinucleotide.txt"
 
-# specifies active signatures in TCGA cancer types
-active_signatures_file = "annotation/custom/active_signatures_PCAWG_HNSC.txt"
 
 # specifies active signatures in each sample. Contains the active signatures for the example
 # active_signatures_file = "annotation/active_in_samples.txt"
-
-SAVED_SAMPLES_DIR = "/output/saved_data/"
 
 PLOT_FULL_NAME = FALSE
 mutation_assignments = ""
@@ -85,4 +94,4 @@ for (file in src_files)
 }
 
 list[alex, tumortypes, active_signatures, active_signatures.our_samples] <- 
-    load_annotation(tumortype_file, signature_file, active_signatures_file)
+    load_annotation(tumortype_file, signature_file, active_signatures_file, simulated_data = simulated_data)

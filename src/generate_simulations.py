@@ -152,13 +152,13 @@ if __name__=="__main__":
 
 	signatures = [['S1', 'S5'] + list(_) for _ in combinations]
 
-	if not os.path.exists("./simulated_data/"):
-		os.makedirs("./simulated_data/")
+	if not os.path.exists("/output/simulation/simulated_data/"):
+		os.makedirs("/output/simulation/simulated_data/")
 
 	for sig_comb in signatures:
 		change_points = rd.randint(1, 3)
 		# output file name
-		file_name = "./simulated_data/"+"_".join(sig_comb[2:])+ "_" + str(change_points)
+		file_name = "/output/simulation/simulated_data/"+"_".join(sig_comb[2:])+ "_" + str(change_points)
 
 		random = RandomData(change_points, time_points, sig_comb)
 		exposure = random._generate_e_i("random")
