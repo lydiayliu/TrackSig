@@ -1,7 +1,6 @@
 ## LOAD
 simulated_data <- FALSE
 source("src/header.R")
-source("src/compute_overall_exposures.R")
 
 ## DATA
 exposures <- compute_overall_exposures_for_all_examples()
@@ -9,6 +8,10 @@ exposures <- compute_overall_exposures_for_all_examples()
 # 5% threshold
 exposures[exposures < 0.05] <- 0
 exposures[exposures >= 0.05] <- 1
+
+# sanity
+print(rowSums(exposures))
+print(colSums(exposures))
 
 # format
 exposures <- cbind(tumor_type = 'HNSC', ID = rownames(exposures), exposures)

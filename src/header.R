@@ -87,7 +87,8 @@ if (!file.exists(DIR_RESULTS))
 
 src_files <- setdiff(grep(".*R$", list.files(paste0( "src"),full.names = T), value = T), 
                      c(paste0( "src/compute_mutational_signatures.R"),
-                       paste0( "src/header.R")))
+                       paste0( "src/header.R"),
+                       paste0( "src/detect_sample_specific_signatures.R")))
 for (file in src_files)
 {
   source(file)
