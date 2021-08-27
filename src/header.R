@@ -17,12 +17,12 @@ sig_amount <- "onlyKnownSignatures" # recommended
 bin_size = 100
 
 # if the signatures are specified per cancer type or per sample
-cancer_type_signatures = TRUE
+# cancer_type_signatures = TRUE
 
 # if signatures trajectories need to be computed on bootstrapped signatures as well
 # bootstrapping provides the uncertainty estimations on the trajectories
 # warning: by default, mutations are bootstrapped 30 times and the script will run 30 time longer
-compute_bootstrap = FALSE
+# compute_bootstrap = FALSE
 
 sliding_window = FALSE
 noise_sig = NULL
@@ -62,20 +62,25 @@ if (simulated_data) {
   SAVED_SAMPLES_DIR = "/output/saved_data/"
   # file with cancer types of each sample
   tumortype_file <- "/data/tumortypes.txt"
-  # specifies active signatures in TCGA cancer types
-  active_signatures_file = "annotation/custom/active_signatures_PCAWG_HNSC.txt"
+
   # file with signatures definitions
   signature_file = "annotation/custom/COSMIC_v3.2_SBS_GRCh38.txt"
-}
 
+  if (cancer_type_signatures){
+    # specifies active signatures in TCGA cancer types
+    active_signatures_file = "annotation/custom/active_signatures_PCAWG_HNSC.txt"
+  } else {
+    # specifies active signatures in each sample. Contains the active signatures for the example
+    active_signatures_file = "/data/active_in_samples.txt"
+  }
+}
 
 
 # file with trinucleotide context
 trinucleotide_file = "annotation/trinucleotide.txt"
 
 
-# specifies active signatures in each sample. Contains the active signatures for the example
-# active_signatures_file = "annotation/active_in_samples.txt"
+
 
 PLOT_FULL_NAME = FALSE
 mutation_assignments = ""
