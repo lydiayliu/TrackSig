@@ -341,8 +341,10 @@ compute_errorbars_for_all_examples <- function(bootstrap_counts = BOOTSTRAP_COUN
       plot_name <- paste0(dir_name, "/", acronym, "_", data_method, "_multMix_fittedPerTimeSlice_", sig_amount, "_noPrior_", method_name, postfix)
     }
 
+    # possible for there to still be no changepoints?
+    mark_cp <- !is.null(changepoints)
     plot_signatures(mixtures.mean*100, plot_name=paste0(plot_name, ".mean.bootstrap_traj.pdf"), phis = phis_for_plot, 
-                    mark_change_points=T,
+                    mark_change_points=mark_cp,
                     change_points=changepoints,
                     transition_points = transition_points,
                     fitted_data = lapply(mixtures_bootstrap, function(x) x* 100))
