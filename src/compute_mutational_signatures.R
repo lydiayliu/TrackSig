@@ -366,3 +366,7 @@ save_data_for_samples()
 # suppressMessages(compute_signatures_for_all_examples())
 compute_signatures_for_all_examples()
 if (compute_bootstrap) {compute_errorbars_for_all_examples()}
+
+# cohort exposures for comparison
+exposures <- compute_overall_exposures_for_all_examples()
+write.table(exposures, '/output/sample_overall_exposures.txt', sep='\t', quote=F, row.names=T, col.names=T)
