@@ -1,7 +1,27 @@
 ## LOAD
+args <- commandArgs(TRUE)
+mode <- args[1]
+
 simulated_data <- FALSE
 cancer_type_signatures <- TRUE
 compute_bootstrap <- FALSE
+
+if (!is.na(mode)){
+
+  if (mode == 'sim'){
+    simulated_data <- TRUE
+  } else if (mode == 'sample'){
+    cancer_type_signatures <- FALSE
+  } else if (mode == 'boot'){
+    cancer_type_signatures <- FALSE
+    compute_bootstrap <- TRUE
+  }
+
+}
+
+print(simulated_data)
+print(cancer_type_signatures)
+print(compute_bootstrap)
 
 source("src/header.R")
 
