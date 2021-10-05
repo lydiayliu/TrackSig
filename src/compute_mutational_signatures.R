@@ -19,6 +19,7 @@ if (!is.na(mode)){
     cancer_type_signatures <- FALSE
     compute_bootstrap <- TRUE
   } else if (mode == 'dpclust'){
+    cancer_type_signatures <- FALSE
     use_purity <- FALSE
   }
 
@@ -55,6 +56,11 @@ save_data_for_samples <- function(dir_counts = DIR_COUNTS,  bootstrap_counts = B
   {
     print(paste0("Example ", example, " (", which(examples_group == example), " out of ", length(examples_group), ")"))    
     
+    if (file.exists(paste0(SAVED_SAMPLES_DIR, "/", example, ".RData"))){
+      print(paste0("RData exists for example ", example))
+      next
+    }
+
     if (simulated_data) {
       list[tumor_id, vcfData, phis, acronym, dir_name] <- extract_data_for_simulation(example, dir_counts, dir_create = F)
     } else {
