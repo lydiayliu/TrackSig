@@ -7,6 +7,7 @@ mode <- args[1]
 simulated_data <- FALSE
 cancer_type_signatures <- TRUE
 compute_bootstrap <- FALSE
+use_purity <- TRUE
 
 if (!is.na(mode)){
 
@@ -17,6 +18,8 @@ if (!is.na(mode)){
   } else if (mode == 'boot'){
     cancer_type_signatures <- FALSE
     compute_bootstrap <- TRUE
+  } else if (mode == 'dpclust'){
+    use_purity <- FALSE
   }
 
 }
@@ -82,8 +85,10 @@ save_data_for_samples <- function(dir_counts = DIR_COUNTS,  bootstrap_counts = B
       
 
     if (!simulated_data) {
-      purity = get_sample_purity(example)
-      phis_for_plot = phis_for_plot / purity
+      if (use_purity){
+        purity = get_sample_purity(example)
+        phis_for_plot = phis_for_plot / purity
+      }
 
       if (sum(phis_sliding_window < 0.001) > 0.2 * length(phis_sliding_window))
       {
@@ -360,9 +365,13 @@ compute_errorbars_for_all_examples <- function(bootstrap_counts = BOOTSTRAP_COUN
   }
 }
 
-
-
 save_data_for_samples()
+
+if (!use_purity){
+  print('Quitting after creating sample files without purity')
+  quit('no')
+}
+
 # suppressMessages(compute_signatures_for_all_examples())
 compute_signatures_for_all_examples()
 if (compute_bootstrap) {compute_errorbars_for_all_examples()}
