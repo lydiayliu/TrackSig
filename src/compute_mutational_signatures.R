@@ -300,10 +300,10 @@ compute_errorbars_for_all_examples <- function(bootstrap_counts = BOOTSTRAP_COUN
       next
     }
   
-    max_tp = 100
+    max_tp = 300
     # do not compute bootstrap for samples with number of time points > max_tp
     if (ncol(vcf) > max_tp) {
-      print(paste0("Skipping ", example, ": more than ", max_tp, " timepoints"))
+      print(paste0("Skipping ", example, ": ", ncol(vcf), " more than ", max_tp, " timepoints"))
       next
     }
 
@@ -318,7 +318,7 @@ compute_errorbars_for_all_examples <- function(bootstrap_counts = BOOTSTRAP_COUN
     }
     
     if (is.null(alex.t)) {
-      print(paste0("No active signatures for sample", example, " ...."))
+      print(paste0("No active signatures for sample ", example, " ...."))
       next
     }
     
