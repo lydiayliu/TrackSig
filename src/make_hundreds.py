@@ -46,7 +46,11 @@ if __name__ == "__main__":
 			counts[ref + "_" + alt + "_" + context] += 1
 			sum_phis += float(phi)
 
-	assert(sum(counts.values()) == max(0,end - start + 1))
+	# print(start)
+	# print(end)
+	# print(end - start + 1)
+	# print(sum(counts.values()))
+	assert(sum(counts.values()) == max(0, end - start + 1))
 	
 	mean_phi = sum_phis / (end - start + 1)
 

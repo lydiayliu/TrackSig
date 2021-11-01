@@ -102,8 +102,9 @@ fi
 # num_mutations=$(min_number `cat $phi_file | wc -l` `cat $vcf_file | wc -l`)
 
 num_mutations=$(min_number `cat $mutation_types_file | wc -l` `cat $mut_order_file | wc -l`)
-
+# echo ${num_mutations}
 num_hundreds=$(($num_mutations/$bin_size + ($num_mutations % $bin_size > 0))) 
+# echo ${num_hundreds}
 
 if [ ! -f $mutation_counts_file ]; then
 	if [ $num_mutations -lt $bin_size ]; then
@@ -112,8 +113,7 @@ if [ ! -f $mutation_counts_file ]; then
 	else
 		echo "Count file..."
 			for i in `seq 1 $num_hundreds`; do
-			if [ $num_mutations -ge $((i*$bin_size-1)) ]; then 
-
+			if [ $num_mutations -gt $((i*$bin_size-1)) ]; then
 				python $make_hundreds_script $mutation_types_file  $((i*$bin_size-$bin_size)) $((i*$bin_size-1)) >> $mutation_counts_file #2>>$log_dir/log.txt
 				rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 				fi
@@ -126,8 +126,8 @@ if [[ ! -f "$mutation_counts_file" ]]; then
 	exit -1
 fi
 
-
 if [ "$do_bootstrap" = true ] ; then
+	echo "Bootstrap files..."
    bootstrap_dir=$mutation_bootstrap_path/$tumor_id/
    if [ !  -z  $tumor_part  ]; then
 	bootstrap_dir=${bootstrap_dir:0:${#bootstrap_dir}-1}
@@ -161,7 +161,7 @@ if [ "$do_bootstrap" = true ] ; then
 	 if [ ! -f $mutation_bootstrap_counts_file ] || [ ! -s  $mutation_bootstrap_counts_file ]; then
 			# echo "Bootstrap counts..."
 			for t in `seq 1 $num_hundreds`; do
-				if [ $num_mutations -ge $((t*$bin_size-1)) ]; then
+				if [ $num_mutations -gt $((t*$bin_size-1)) ]; then
 					python $make_hundreds_script $mutation_bootstrap_file  $((t*$bin_size-$bin_size)) $((t*$bin_size-1)) >> $mutation_bootstrap_counts_file #2>>$log_dir/log.txt
 					rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 				fi
