@@ -328,7 +328,13 @@ compute_errorbars_for_all_examples <- function(bootstrap_counts = BOOTSTRAP_COUN
     }
     
     dir_name <- paste0(DIR_RESULTS, acronym, "/", tumor_id, "/")
-    suppressWarnings(dir.create(dir_name, recursive = T))  
+
+    if (file.exists(paste0(dir_name, 'mixtures.mean.csv'))){
+      print(paste0("Bootstrap previously computed for ", example, " ...."))
+      next
+    }
+
+    suppressWarnings(dir.create(dir_name, recursive = T))
     
     method_name <- "iterativeChangePoints"
     
